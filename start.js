@@ -12,28 +12,22 @@ log.info('deploy avviato');
 
 auto.gitPull(
     'http://rguidi:raffaele@10.238.11.11/gitbucket/git/rguidi/bilanciatori.git', 
-    'work/bilanciatori', 
-    function (stdout) {
+    'work/bilanciatori', function (stdout) {
         log.info('repo aggiornato');
-        auto.run('mkdir /home/rough/ciccio', null,
-            function(){
-                log.info('cartelle create, inizio l\'upload');
-                auto.upload('httpd.conf', httpdConfNameTransformer, '/home/rough/ciccio/httpd.conf', null, 
+        auto.run('mkdir /home/rough/ciccio', null,function(){
+            log.info('cartelle create, inizio l\'upload');
+            auto.upload('httpd.conf', httpdConfNameTransformer, '/home/rough/ciccio/httpd.conf', null, function() {
+                log.info('upload terminato');
+                auto.upload(
+                    renderer.renderToTmp('test.ejs.sh', {param1: 'ciao'}), null, '/home/rough/ciccio/test.sh', null, 
                     function() {
-                        log.info('upload terminato');
-                        auto.upload(
-                            renderer.renderToTmp('test.ejs.sh', {param1: 'ciao'}), null, '/home/rough/ciccio/test.sh', null, 
-                            function() {
-                                auto.run('uname -a', null, function(res) {
-                                    log.info('deploy terminato');
-                                });
-                            }
-                        );
+                        auto.run('uname -a', null, function(res) {
+                            log.info('deploy terminato');
+                        });
                     }
-                );
-            }
-        );
-    },
+                );}
+            );}
+        );},
     function(error, stderr){
         log.error('non sono riuscito a clonare il repo');
     }
