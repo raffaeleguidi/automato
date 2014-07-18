@@ -1,0 +1,29 @@
+{
+  "name": "automato",
+  "version": "0.1.0",
+  "description": "A simple deployment automation library",
+  "main": "start.js",
+  "scripts": {
+    "start": "node start.js"
+  },
+  "dependencies": {
+    "date-format-lite": "*"
+    , "node-sshclient": "*"
+    , "ejs": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://raffaeleguidi@git.codebreak.com/raffaeleguidi/automato.git"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "keywords": [
+    "deploy",
+    "automation"
+  ],
+  "author": "Raffaele P. Guidi",
+  "contributors": [
+  ],
+  "license": "Apache"
+}
