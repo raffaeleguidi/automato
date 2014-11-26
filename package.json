@@ -11,6 +11,7 @@
     , "node-sshclient": "*"
     , "ejs": "*"
     , "randomstring": "*"
+    , "commander": "*"
   },
   "repository": {
     "type": "git",
