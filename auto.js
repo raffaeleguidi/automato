@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
+var log = require('./lib/utils/log.js');
 
 program
   .version('0.0.1')
@@ -14,23 +15,38 @@ program
   .option('-m, --model [model filename(.json)]', 'json model file name')
   .parse(process.argv);
 
-console.log('you executed:');
-if (program.remote) console.log('host: ' + program.remote);
-if (program.user) console.log('user: ' + program.user);
-if (program.upload) console.log('upload: ' + program.upload);
-if (program.download) console.log('download: ' + program.download);
-if (program.execute) console.log('execute command: ' + program.execute);
-if (program.remote) console.log('remote host: ' + program.remote);
-if (program.file) console.log('filename: ' + program.file);
-if (program.template) console.log('template: ' + program.template);
-if (program.model) console.log('model: ' + program.model);
+log.info('*** automato starting ***');
+if (program.remote)     log.info('host: ' + program.remote);
+if (program.user)       log.info('user: ' + program.user);
+if (program.upload)     log.info('upload: ' + program.upload);
+if (program.download)   log.info('download: ' + program.download);
+if (program.execute)    log.info('execute command: ' + program.execute);
+if (program.remote)     log.info('remote host: ' + program.remote);
+if (program.file)       log.info('filename: ' + program.file);
+if (program.template)   log.info('template: ' + program.template);
+if (program.model)      log.info('model: ' + program.model);
 
-//var auto = require('./lib/automato-lib.js').init();
-//
-//auto.run('ponte', 'rough', 'uname -a', function(res) {
-//    console.log(JSON.stringify(res));
-//    console.log(res.stdout);
-//})
-//
-//console.log(auto.render('test.ejs.sh', {param1: 'ciao'}));
-//console.log(auto.renderToTmp('test.ejs.sh', {param1: 'ciao'}));
+var auto = require('./lib/automato-lib.js').init();
+
+if (program.execute) {
+    auto.run(program.remote, program.user, program.execute, function(res) {
+        log.trace("response is: " + JSON.stringify(res));
+        console.log(res.stdout);
+    });
+} else if (program.upload) {
+    auto.upload(program.remote, program.user, program.upload, program.file, function(res) {
+        log.trace("response is: " + JSON.stringify(res));
+        console.log(res.stdout);
+    });
+} else if (program.download) {
+    auto.download(program.remote, program.user, program.download, program.file, function(res) {
+        log.trace("response is: " + JSON.stringify(res));
+    });
+} else if (program.template) {
+    var fs = require('fs');
+    var model = require(program.model);
+    fs.writeFileSync(program.file, auto.render(program.template, model));
+}
+
+log.info('*** automato done ***');
+
