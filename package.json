@@ -12,6 +12,9 @@
     , "ejs": "*"
     , "randomstring": "*"
     , "commander": "*"
+    , "fs": "*"
+    , "sys": "*"
+    , "exec": "*"
   },
   "repository": {
     "type": "git",
