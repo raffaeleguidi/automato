@@ -13,6 +13,7 @@ program
   .option('-f, --file [filename and path]', 'file name and path')
   .option('-t, --template [template filename]', 'template filename and path')
   .option('-m, --model [model filename(.json)]', 'json model file name')
+  .option('-im, --inlinemodel [inline model in json format]', 'inline json model')
   .parse(process.argv);
 
 log.info('*** automato starting ***');
@@ -44,7 +45,21 @@ if (program.execute) {
     });
 } else if (program.template) {
     var fs = require('fs');
-    var model = require(program.model);
+    var model = "";
+
+    if(program.model) 
+    {
+      model = require(program.model);
+      log.trace("Found a model :" + model);
+    }
+    else if(program.inlinemodel) 
+    {
+      model = JSON.parse(program.inlinemodel);
+      log.info("Found an INLINE model :" + JSON.stringify(model));
+    }
+
+    log.trace("Found a model :" + model);
+
     fs.writeFileSync(program.file, auto.render(program.template, model));
 }
 
