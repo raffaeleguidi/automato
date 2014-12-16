@@ -1,6 +1,6 @@
 {
   "name": "automato",
-  "version": "0.1.1",
+  "version": "0.1.22",
   "description": "A simple deployment automation library",
   "main": "start.js",
   "scripts": {
