@@ -64,4 +64,3 @@ if (program.execute) {
 }
 
 log.info('*** automato done ***');
-
